@@ -15,6 +15,7 @@ model User {
   imageUrl      String?
   createdIssues Issue[]   @relation("Reporter")
   assignedIssues Issue[]  @relation("Assignee")
+  projects      Project[] @relation("ProjectAdmins")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -25,6 +26,7 @@ model Project {
   key            String
   description    String?
   organizationId String    // This will store the Clerk organization ID
+  adminId        User[]  @relation("ProjectAdmins")
   sprints        Sprint[]
   issues         Issue[]
   createdAt      DateTime @default(now())

@@ -4,7 +4,7 @@ import { toast } from "sonner";
 export const useFetch = <T, A extends any[]>(
   cb: (...args: A) => Promise<T>,
 ) => {
-  const [data, setDate] = useState<T | undefined>(undefined);
+  const [data, setData] = useState<T | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any | null>(null);
 
@@ -13,7 +13,7 @@ export const useFetch = <T, A extends any[]>(
     setError(null);
     try {
       const data = await cb(...args);
-      setDate(data);
+      setData(data);
       setError(null);
     } catch (err: any) {
       if (err) {
@@ -24,5 +24,5 @@ export const useFetch = <T, A extends any[]>(
       setLoading(false);
     }
   };
-  return { data, loading, error, fn };
+  return { data, loading, error, fn, setData };
 };

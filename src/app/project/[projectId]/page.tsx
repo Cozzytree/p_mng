@@ -1,8 +1,8 @@
 import AppLayout from "@/components/appLayout";
-import { getProject } from "../../../../actions/project";
 import { notFound } from "next/navigation";
-import SprintCretionForm from "../_components/sprintCreationForm";
+import { getProject } from "../../../../actions/project";
 import SprintBoard from "../_components/sprintBoard";
+import SprintCretionForm from "../_components/sprintCreationForm";
 
 type props = {
   params: { projectId: string };
