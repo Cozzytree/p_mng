@@ -2,7 +2,7 @@ import React from "react";
 import { Sidebar, SidebarTrigger } from "./ui/sidebar";
 import SidebarContentStyle from "./sidebarContent";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { Settings, Users } from "lucide-react";
+import { Users } from "lucide-react";
 
 type props = {
   children: React.ReactNode;
