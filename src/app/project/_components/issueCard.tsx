@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,8 +17,8 @@ import IssueDetailDialogBox from "./issueDetailDialogBox";
 type props = {
   issue: any;
   showStatus: boolean;
-  onDelete: (p: any) => void;
-  onUpdate: (p: any) => void;
+  onDelete?: (p: any) => void;
+  onUpdate?: (p: any) => void;
 };
 
 const priorityColor: any = {
@@ -32,7 +34,7 @@ export default function IssueCard({
   onDelete,
   onUpdate,
 }: props) {
-  const created = formatDistanceToNow(new Date(issue.createdAt), {
+  const created = formatDistanceToNow(new Date(issue?.createdAt), {
     addSuffix: true,
   });
   const { refresh } = useRouter();
@@ -40,12 +42,12 @@ export default function IssueCard({
 
   const onDeleteHandler = (params: any) => {
     refresh();
-    onDelete(params);
+    if (onDelete) onDelete(params);
   };
 
   const onUpdateHandler = (params: any) => {
     refresh();
-    onUpdate(params);
+    if (onUpdate) onUpdate(params);
   };
 
   return (

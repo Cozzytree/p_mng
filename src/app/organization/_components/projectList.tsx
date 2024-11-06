@@ -1,13 +1,12 @@
-import Link from "next/link";
-import { getProjects } from "../../../../actions/project";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
+import { getProjects } from "../../../../actions/project";
 import DeleteProject from "./deleteProject";
 
 export default async function ProjetList({
@@ -31,7 +30,7 @@ export default async function ProjetList({
     );
 
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-3 xl:grid-cols-3">
       {data.map((p) => (
         <Card key={p.id} className="w-full space-y-1">
           <CardHeader className="p-3 w-full flex flex-row justify-between items-center">

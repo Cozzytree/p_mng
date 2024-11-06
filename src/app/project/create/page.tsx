@@ -26,7 +26,6 @@ export default function CreateProject() {
   } = useForm({ resolver: zodResolver(projectSchema) });
   const {
     data: projectData,
-    error,
     loading,
     fn: createProjectMutation,
   } = useFetch(createProject);
@@ -65,14 +64,28 @@ export default function CreateProject() {
 
           <div className="w-full flex justify-center items-center">
             <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-              <Input placeholder="Name" id="name" {...register("name")} />
-              <Input placeholder="Key" id="key" {...register("key")} />
+              <Input
+                className=""
+                placeholder="Name"
+                id="name"
+                {...register("name")}
+              />
+
+              <Input
+                className=""
+                placeholder="Key"
+                id="key"
+                {...register("key")}
+              />
               <Textarea
                 className="max-h-40"
                 placeholder="Description"
                 id="description"
                 {...register("description")}
               />
+              <p className="text-sm text-red-600 w-full text-center">
+                {errors.root?.message && errors.root?.message}
+              </p>
               <Button
                 disabled={loading}
                 type="submit"

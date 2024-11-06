@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { SidebarContent, SidebarHeader, useSidebar } from "./ui/sidebar";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 import React from "react";
+import { Button } from "./ui/button";
+import { SidebarContent, SidebarHeader, useSidebar } from "./ui/sidebar";
 
 interface pathProps {
   href: string;
@@ -18,12 +18,12 @@ type props = {
 
 export default function SidebarContentStyle({ paths }: props) {
   const pathname = usePathname();
-  const { open, isMobile } = useSidebar();
+  const { isMobile } = useSidebar();
 
   return (
     <>
       <SidebarHeader className={`${isMobile && "z-20"} py-6 px-3`}>
-        P_MNG
+        <Link href={"/"}>P_MNG</Link>
       </SidebarHeader>
       <SidebarContent className="flex flex-col gap-0">
         {paths.map((r) => (

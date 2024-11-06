@@ -11,9 +11,15 @@ export const getOrganizations = async ({ slug }: { slug: string }) => {
   const { userId } = await auth();
   if (!userId) return null;
 
-  const loggedUser = await prisma.user.findUnique({
-    where: { clerkUserId: userId },
-  });
+  const loggedUser = await prisma.user
+    .findUnique({
+      where: { clerkUserId: userId },
+    })
+    .catch((err) => {
+      if (err) {
+        throw new Error(err.message || "internal server error");
+      }
+    });
 
   if (!loggedUser) throw new Error("user not found");
 

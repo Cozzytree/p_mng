@@ -29,8 +29,6 @@ export default function DeleteProject({ projectId }: props) {
     if (data?.success) {
       toast.error("project successfully deleted");
       refresh();
-    } else if (!data?.success) {
-      toast.error(error);
     }
   }, [data, loading, refresh, error]);
 

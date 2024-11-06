@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { IssuePriority, User } from "@prisma/client";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type props = {
   issues: any[];
@@ -21,10 +21,30 @@ const priorities = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 
 export default function BoardFilters({ issues, onFilterChange }: props) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedAssignee, setSelecedAssignee] = useState([]);
+  const [selectedAssignee, setSelecedAssignee] = useState<string[]>([]);
   const [selectedPriority, setSelectedPriority] = useState<IssuePriority | "">(
     "",
   );
+  useEffect(() => {
+    const filteredIssues = issues.filter(
+      (i: any) =>
+        i.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedAssignee.length == 0 ||
+          selectedAssignee.includes(i.assignee.id)) &&
+        (selectedPriority.length === 0 || selectedPriority === i.priority),
+    );
+    onFilterChange(filteredIssues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, selectedAssignee, selectedPriority, issues]);
+
+  const toggleAssigneeId = (aid: string) => {
+    setSelecedAssignee((prev: string[]) => {
+      return prev.includes(aid)
+        ? prev.filter((p) => p !== aid)
+        : [...prev, aid];
+    });
+  };
+
   const cleearFilters = () => {
     setSelecedAssignee([]);
     setSelectedPriority("");
@@ -49,9 +69,14 @@ export default function BoardFilters({ issues, onFilterChange }: props) {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div>
-          {assignees.map((s: User) => (
-            <Avatar key={s.id} className="w-8 h-8">
+        <div className="relative">
+          {assignees.map((s: User, i: number) => (
+            <Avatar
+              onClick={() => toggleAssigneeId(s.id)}
+              style={{ zIndex: i + 1 }}
+              key={s.id}
+              className={`${i > 0 && "-ml-6"} w-8 h-8 ${selectedAssignee.includes(s.id) && "border-2 border-blue-400"}`}
+            >
               <AvatarImage src={s.imageUrl || ""} alt={s.name || ""} />
               <AvatarFallback className="capitalize">
                 {s.name?.slice(0, 2)}

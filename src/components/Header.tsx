@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut, SignUpButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 import { checkUser } from "@/lib/checkUser";
 
 export default async function Header() {
@@ -9,7 +9,7 @@ export default async function Header() {
     <header className="w-full flex justify-between sticky top-0 backdrop-blur-md">
       <div>
         <Link href={"/"}>
-          <h1 className="font-semibold">P_MNG</h1>
+          <h1 className="font-semibold w-full">P_MNG</h1>
         </Link>
       </div>
       <div className="flex items-center gap-4">

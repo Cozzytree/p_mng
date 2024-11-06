@@ -64,6 +64,7 @@ export default function IssueDetailDialogBox({
     if (updatedIssue?.success) {
       onUpdate(updatedIssue.data);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedIssue, updatedIssue, deletingIssue, updatingIssue]);
 
   const handleStatusChange = (status: IssueStatus) => {
@@ -98,12 +99,12 @@ export default function IssueDetailDialogBox({
 
         <div className="space-y-3">
           <DialogTitle className="text-2xl">{issue.title}</DialogTitle>
-          {isProjectPage && (
+          {!isProjectPage && (
             <Link
-              href={`/project/${issue.projectId}`}
+              href={`/project/${issue.projectId}?sprint=${issue.id}`}
               className={`${buttonVariants({ variant: "link", size: "sm" })} h-fit`}
             >
-              view project
+              visit
             </Link>
           )}
 

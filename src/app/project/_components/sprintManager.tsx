@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Sprint, SprintStatus } from "@prisma/client";
 import { useFetch } from "@/hooks/useFetch";
 import { updateSprintStatus } from "../../../../actions/sprint";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type props = {
   sprints: Sprint[];
@@ -28,6 +29,8 @@ export default function SprintManager({
   const startDate = new Date(currentSprint.startDate);
   const endDate = new Date(currentSprint.endDate);
   const now = new Date();
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
 
   const {
     fn: updateStatus,
@@ -41,6 +44,16 @@ export default function SprintManager({
     }
   }, [updatedStatus, setCurrentSprint, updatingStatus]);
 
+  useEffect(() => {
+    const sprintId = searchParams.get("sprint");
+    if (sprintId && sprintId !== currentSprint.id) {
+      const selectedSprint = sprints.find((s) => s.id === sprintId);
+      if (selectedSprint) {
+        setCurrentSprint(selectedSprint);
+      }
+    }
+  }, [searchParams, currentSprint, sprints, setCurrentSprint]);
+
   const canStart =
     isBefore(now, new Date(currentSprint.endDate)) &&
     isAfter(now, new Date(currentSprint.startDate)) &&
@@ -51,6 +64,7 @@ export default function SprintManager({
     const selectedSprint: Sprint | undefined = sprints.find((s) => s.id === e);
     if (!selectedSprint) return;
     setCurrentSprint(selectedSprint);
+    replace(`/project/${projectId}`);
   };
 
   const handleStatusChange = async (newStatus: SprintStatus) => {

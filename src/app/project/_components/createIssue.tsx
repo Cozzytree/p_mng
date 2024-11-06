@@ -7,7 +7,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue, IssueStatus } from "@prisma/client";
+import { IssueStatus } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
 import { issueSchema } from "@/lib/validator";
 import { useFetch } from "@/hooks/useFetch";
@@ -15,13 +15,11 @@ import { createIssue } from "../../../../actions/issues";
 import { getOrganizationUsers } from "../../../../actions/organizations";
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
@@ -46,13 +44,7 @@ export default function IsseuCreationDrawer({
   onIssueCreated,
   orgId,
 }: props) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-  } = useForm({
+  const { register, handleSubmit, control, reset } = useForm({
     resolver: zodResolver(issueSchema),
     defaultValues: {
       priority: "MEDIUM",
@@ -78,6 +70,7 @@ export default function IsseuCreationDrawer({
     if (isOpen && orgId) {
       getOrgUsers(orgId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, orgId]);
 
   useEffect(() => {
@@ -87,9 +80,10 @@ export default function IsseuCreationDrawer({
       onIssueCreated();
       toast.success(`${newIssue.id} added successfully`);
     }
-  }, [createIssue, newIssue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newIssue]);
 
-  const onSubmit = async (data: Partial<Issue>) => {
+  const onSubmit = async (data: any) => {
     await createIssueFn(projectId, { ...data, status, sprintId });
   };
 
@@ -105,6 +99,7 @@ export default function IsseuCreationDrawer({
         >
           <div className="mb-12 space-y-2">
             <Input
+              className=""
               placeholder="Title"
               type="text"
               id="title"
@@ -164,7 +159,7 @@ export default function IsseuCreationDrawer({
               className="float-right"
               size={"sm"}
             >
-              {createIssue ? "creating issue" : "Create Issue"}
+              {creatingIssue ? "creating issue" : "Create Issue"}
             </Button>
           </div>
         </form>

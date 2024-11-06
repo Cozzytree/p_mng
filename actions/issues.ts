@@ -172,3 +172,39 @@ export async function updateIssue(
 
   return { success: true, data: updatedIssue };
 }
+
+export const getUserIssues = async (userId: string) => {
+  const { orgId } = await auth();
+
+  if (!userId || !orgId) {
+    throw new Error("Unauthorized");
+  }
+  const user = await prisma.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("user not found");
+
+  const issues = await prisma.issue
+    .findMany({
+      where: {
+        OR: [{ assigneeId: user.id, reporterId: user.id }],
+        project: {
+          organizationId: orgId,
+        },
+      },
+      include: {
+        project: true,
+        assignee: true,
+        reporter: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.messge || "error while retrieving data");
+    });
+
+  return { success: true, data: issues };
+};

@@ -5,14 +5,15 @@ import { OrganizationList } from "@clerk/nextjs";
 export default function DashBoardPage() {
   return (
     <AppLayout>
-      <h1>DashBoard</h1>
-      <Header />
+      <div className="py-4 px-4 space-y-3 w-full flex flex-col items-center">
+        <Header />
 
-      <OrganizationList
-        hidePersonal
-        afterCreateOrganizationUrl={"/organization/:slug"}
-        afterSelectOrganizationUrl={"/organization/:slug"}
-      />
+        <OrganizationList
+          hidePersonal
+          afterCreateOrganizationUrl={"/organization/:slug"}
+          afterSelectOrganizationUrl={"/organization/:slug"}
+        />
+      </div>
     </AppLayout>
   );
 }

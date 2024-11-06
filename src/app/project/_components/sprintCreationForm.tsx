@@ -31,11 +31,8 @@ export default function SprintCretionForm({
     to: addDays(new Date(), 14),
   };
   const { refresh } = useRouter();
-  const {
-    loading: creatingSprint,
-    data: projectData,
-    fn: createSprintfn,
-  } = useFetch(createSprint);
+  const { loading: creatingSprint, fn: createSprintfn } =
+    useFetch(createSprint);
 
   const {
     register,
@@ -61,7 +58,7 @@ export default function SprintCretionForm({
   return (
     <div className="w-full flex flex-col gap-4">
       <div className="w-full flex justify-between items-center">
-        <h1>{projectTitle}</h1>
+        <h1 className="text-xl font-sans px-5">{projectTitle}</h1>
         <Button
           className="mb-3"
           onClick={() => setShowForm(!showForm)}
@@ -82,6 +79,7 @@ export default function SprintCretionForm({
                     Sprint name
                   </label>
                   <Input
+                    className=""
                     defaultValue={`${projectKey} - ${sprintKey}`}
                     id="name"
                     placeholder="Name"
@@ -100,6 +98,7 @@ export default function SprintCretionForm({
                   </label>
 
                   <Input
+                    className=""
                     defaultValue={JSON.stringify(dateRange.from)}
                     type="date"
                     id="startDate"
@@ -118,6 +117,7 @@ export default function SprintCretionForm({
                     })}
                   />
                   <Input
+                    className=""
                     defaultValue={JSON.stringify(dateRange.to)}
                     type="date"
                     id="endDate"

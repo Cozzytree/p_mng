@@ -11,17 +11,20 @@ type props = {
 const route = [
   { label: "Dashboard", href: "/dashboard", icon: <DashboardIcon /> },
   { label: "Organizations", href: "/organization", icon: <Users /> },
-  { label: "Settings", href: "/settings", icon: <Settings /> },
 ];
 
 export default function AppLayout({ children }: props) {
   return (
     <>
-      <Sidebar variant="sidebar" collapsible="offcanvas" className="min-w-8">
+      <Sidebar
+        variant="floating"
+        collapsible="offcanvas"
+        className="min-w-8 transition-none duration-0"
+      >
         <SidebarContentStyle paths={route} />
       </Sidebar>
-      <main className="w-full px-4 sm:px-10 relative py-2">
-        <SidebarTrigger className="absolute top-1 left-1" />
+      <main className="w-full px-4 h-screen sm:px-10 relative overflow-y-auto">
+        <SidebarTrigger className="absolute top-3 left-1" />
         {children}
       </main>
     </>
